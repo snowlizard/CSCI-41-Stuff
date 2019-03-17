@@ -184,23 +184,54 @@ void SortedList<ItemType>::insertSorted( const ItemType &newEntry )
     {
         newNode->setNext( head );
         head = newNode;
+        itemCount++;
     }
     else
     {
         newNode->setNext( preNode->getNext() );
         preNode->setNext( newNode );
+        itemCount++;
     }
 }
 
 template<class ItemType>
 bool SortedList<ItemType>::removeSorted( const ItemType &anEntry )
 {
+    if ( isEmpty() )
+    {
+        cout << "Cannot remvoe from empty list!\n";
+        return false;
+    }
+    
+    
+    
     
 }
 
 template<class ItemType>
 int SortedList<ItemType>::getPosition( const ItemType &newEntry ) const
 {
+    // Not done need to check for invalid/ non existent input
+    
+    int pos = 0;
+    if ( isEmpty() )
+    {
+        return -1;
+    }
+    else
+    {
+        Node<ItemType> *curNode = head;
+        for ( int i = 0; i < getLength(); i++ )
+        {
+            if ( curNode->getItem() == newEntry )
+            {
+                pos = i;
+            }
+            
+            curNode = curNode->getNext();
+        }
+        return pos;
+    }
     
 }
 #endif
