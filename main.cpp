@@ -14,7 +14,7 @@ int main()
     
     // remove sorted not removed last node in list correcty or at all
     // instead removees the first node
-    myList.removeSorted(51);
+    myList.removeSorted(10);
     
     //cout << myList.getPosition(30) << "pos\n";
     

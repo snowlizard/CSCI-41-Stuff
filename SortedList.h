@@ -198,29 +198,13 @@ void SortedList<ItemType>::insertSorted( const ItemType &newEntry )
  bool SortedList<ItemType>::removeSorted( const ItemType &anEntry )
  {
      int iPos = getPosition( anEntry );
-     if ( isEmpty() )
+     if ( remove(iPos))
      {
-         cout << "Cannot remvoe from empty list!\n";
-         return false;
-     }
-     else if ( iPos == 1  )
-     {
-         Node<ItemType> *curNode = head;
-         head = curNode->getNext();
-         curNode->setNext( NULL );
-         delete curNode;
-         itemCount--;
          return true;
      }
      else
      {
-         Node<ItemType> *preNode = getNodeBefore( anEntry );
-         Node<ItemType> *curNode = getNodeAt( iPos );
-         preNode->setNext( curNode->getNext() );
-         curNode->setNext( NULL );
-         delete curNode;
-         itemCount--;
-         return true;
+         return false;
      }
  }
 
@@ -229,8 +213,9 @@ template<class ItemType>
 int SortedList<ItemType>::getPosition( const ItemType &newEntry ) const
 {
     // Not done need to check for invalid/ non existent input
-    
-    int pos = 1;
+    // problem when its out of range
+    int counter = 1, position;
+    bool exists = false;
     if ( isEmpty() )
     {
         return -1;
@@ -238,19 +223,28 @@ int SortedList<ItemType>::getPosition( const ItemType &newEntry ) const
     else
     {
         Node<ItemType> *curNode = head;
-        for ( int i = 1; i < getLength(); i++ )
+        while ( curNode != NULL )
         {
             if ( curNode->getItem() == newEntry )
             {
-                cout << curNode->getItem() << "  " << newEntry << endl;
-                cout << "Pos is equal to " << i << endl;
-                pos = i;
+                exists = true;
+                position = counter;
+                
             }
-            
+            counter++;
             curNode = curNode->getNext();
         }
-        return pos;
+        
+        if ( exists )
+        {
+            return position;
+        }
+        else
+        {
+            return NULL;
+        }
     }
     
 }
 #endif
+
