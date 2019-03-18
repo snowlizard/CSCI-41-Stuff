@@ -1,5 +1,8 @@
+//header file for the template class Node
+
 #ifndef _NODE
 #define _NODE
+
 template<class ItemType>
 class Node
 {
@@ -8,6 +11,7 @@ private:
     Node<ItemType> *next;
 public:
     Node();  //default constructor
+    Node(const ItemType &anItem);//none default constructor
     Node(const ItemType &anItem, Node<ItemType> *nextPtr); //none default constructor
     void setItem(const ItemType &anItem);
     void setNext(Node<ItemType> *nextPtr);
@@ -17,6 +21,12 @@ public:
 template<class ItemType>
 Node<ItemType>::Node()
 {
+    next = NULL;
+}
+template<class ItemType>
+Node<ItemType>::Node(const ItemType &anItem)
+{
+    item = anItem;
     next = NULL;
 }
 template<class ItemType>

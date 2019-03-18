@@ -61,7 +61,7 @@ SortedList<ItemType>::SortedList( const SortedList<ItemType> &aList )
 template<class ItemType>
 Node<ItemType>* SortedList<ItemType>::getNodeBefore( const ItemType &anEntry) const
 {
-
+    
     Node<ItemType> *curNode = head;
     Node<ItemType> *preNode = NULL;
     while ( (curNode != NULL) && ( curNode->getItem() < anEntry)  )
@@ -194,26 +194,43 @@ void SortedList<ItemType>::insertSorted( const ItemType &newEntry )
     }
 }
 
-template<class ItemType>
-bool SortedList<ItemType>::removeSorted( const ItemType &anEntry )
-{
-    if ( isEmpty() )
-    {
-        cout << "Cannot remvoe from empty list!\n";
-        return false;
-    }
-    
-    
-    
-    
-}
+ template<class ItemType>
+ bool SortedList<ItemType>::removeSorted( const ItemType &anEntry )
+ {
+     int iPos = getPosition( anEntry );
+     if ( isEmpty() )
+     {
+         cout << "Cannot remvoe from empty list!\n";
+         return false;
+     }
+     else if ( iPos == 1  )
+     {
+         Node<ItemType> *curNode = head;
+         head = curNode->getNext();
+         curNode->setNext( NULL );
+         delete curNode;
+         itemCount--;
+         return true;
+     }
+     else
+     {
+         Node<ItemType> *preNode = getNodeBefore( anEntry );
+         Node<ItemType> *curNode = getNodeAt( iPos );
+         preNode->setNext( curNode->getNext() );
+         curNode->setNext( NULL );
+         delete curNode;
+         itemCount--;
+         return true;
+     }
+ }
+
 
 template<class ItemType>
 int SortedList<ItemType>::getPosition( const ItemType &newEntry ) const
 {
     // Not done need to check for invalid/ non existent input
     
-    int pos = 0;
+    int pos = 1;
     if ( isEmpty() )
     {
         return -1;
@@ -221,10 +238,12 @@ int SortedList<ItemType>::getPosition( const ItemType &newEntry ) const
     else
     {
         Node<ItemType> *curNode = head;
-        for ( int i = 0; i < getLength(); i++ )
+        for ( int i = 1; i < getLength(); i++ )
         {
             if ( curNode->getItem() == newEntry )
             {
+                cout << curNode->getItem() << "  " << newEntry << endl;
+                cout << "Pos is equal to " << i << endl;
                 pos = i;
             }
             
