@@ -214,36 +214,23 @@ int SortedList<ItemType>::getPosition( const ItemType &newEntry ) const
 {
     // Not done need to check for invalid/ non existent input
     // problem when its out of range
-    int counter = 1, position;
-    bool exists = false;
-    if ( isEmpty() )
+    int counter = 1;
+    Node<ItemType> *curNode = head;
+    
+    while ( curNode != NULL )
     {
-        return -1;
-    }
-    else
-    {
-        Node<ItemType> *curNode = head;
-        while ( curNode != NULL )
+        if ( curNode->getItem() == newEntry )
         {
-            if ( curNode->getItem() == newEntry )
-            {
-                exists = true;
-                position = counter;
-                
-            }
-            counter++;
-            curNode = curNode->getNext();
-        }
-        
-        if ( exists )
-        {
-            return position;
+            return counter;
+            
         }
         else
         {
-            return NULL;
+            counter++;
+            curNode = curNode->getNext();
         }
     }
+    return 0;
     
 }
 #endif
