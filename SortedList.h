@@ -230,7 +230,7 @@ int SortedList<ItemType>::getPosition( const ItemType &newEntry ) const
             curNode = curNode->getNext();
         }
     }
-    return 0;
+    exit(0); // best solution so far :(
     
 }
 #endif
