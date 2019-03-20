@@ -99,6 +99,14 @@ bool Queue<ItemType>::dequeue()
 template<class ItemType>
 ItemType Queue<ItemType>::peekFront() const
 {
+    if ( isEmpty() )
+    {
+        exit(1);
+    }
+    else
+    {
+        return frontPtr->getItem();
+    }
 }
 template<class ItemType>
 void Queue<ItemType>::display() const
