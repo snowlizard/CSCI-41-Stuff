@@ -198,7 +198,11 @@ void SortedList<ItemType>::insertSorted( const ItemType &newEntry )
  bool SortedList<ItemType>::removeSorted( const ItemType &anEntry )
  {
      int iPos = getPosition( anEntry );
-     if ( remove(iPos))
+     if ( iPos == 0 )
+     {
+         return false;
+     }
+     else if ( remove( iPos ) )
      {
          return true;
      }
@@ -214,15 +218,17 @@ int SortedList<ItemType>::getPosition( const ItemType &newEntry ) const
 {
     // Not done need to check for invalid/ non existent input
     // problem when its out of range
-    int counter = 1;
+    int counter = 1, pos = 0;
+    bool exists = false;
     Node<ItemType> *curNode = head;
     
     while ( curNode != NULL )
     {
         if ( curNode->getItem() == newEntry )
         {
-            return counter;
-            
+            exists = true;
+            pos = counter;
+            break;
         }
         else
         {
@@ -230,8 +236,9 @@ int SortedList<ItemType>::getPosition( const ItemType &newEntry ) const
             curNode = curNode->getNext();
         }
     }
-    exit(1); // best solution so far :(
     
+    if ( exists ){ return pos;}
+    else { return 0; }
 }
 #endif
 

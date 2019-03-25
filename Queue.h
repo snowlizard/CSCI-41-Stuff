@@ -111,6 +111,12 @@ ItemType Queue<ItemType>::peekFront() const
 template<class ItemType>
 void Queue<ItemType>::display() const
 {
+    Node<ItemType> *curNode = frontPtr;
+    while ( curNode->getNext() != NULL )
+    {
+        cout << curNode->getItem() << endl;
+        curNode = curNode->getNext();
+    }
 }
 #endif
 
