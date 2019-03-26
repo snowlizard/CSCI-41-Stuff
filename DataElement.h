@@ -1,19 +1,53 @@
-#indef DataElement_h
+#ifndef DataElement_h
 #define DataElement_h
 
 class DataElement
 {
 private:
     int arrivalTime;
-    int transectionTime;
+    int transactionTime;
 public:
     DataElement();
     DataElement(int arTime, int traTime);
     void setArrivalTime(int arTime);
     int getArrivalTime();
-    void setTransectionTime(int traTime);
-    int getTransectionTime();
+    void setTransactionTime(int traTime);
+    int getTransactionTime();
     friend ostream &operator<<(ostream &, DataElement &);
 };
+
+DataElement::DataElement()
+{
+}
+
+DataElement::DataElement( int arTime, int traTime )
+{
+    arrivalTime     = arTime;
+    transactionTime = traTime;
+}
+
+void DataElement::setArrivalTime( int arTime )
+{
+    arrivalTime = arTime;
+}
+
+int DataElement::getArrivalTime()
+{
+    return arrivalTime;
+}
+
+void DataElement::setTransactionTime( int traTime )
+{
+    transactionTime = traTime;
+}
+
+int DataElement::getTransactionTime()
+{
+    return transactionTime;
+}
+
+
+
+
 
 #endif
