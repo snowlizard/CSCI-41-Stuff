@@ -18,6 +18,8 @@ public:
 
 DataElement::DataElement()
 {
+    arrivalTime = 0;
+    transactionTime = 0;
 }
 
 DataElement::DataElement( int arTime, int traTime )
