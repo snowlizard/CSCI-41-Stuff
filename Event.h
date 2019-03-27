@@ -51,7 +51,14 @@ int Event::getOccurTime()
 }
 //==================== Operator Overloading =======
 
+bool Event::operator>( const Event &anEvent ) const
+{
+    
+}
 
-
+bool Event::operator==( const Event &anEvent ) const
+{
+    
+}
 
 #endif 

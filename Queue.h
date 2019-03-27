@@ -101,6 +101,7 @@ ItemType Queue<ItemType>::peekFront() const
 {
     if ( isEmpty() )
     {
+        cout << "PeekFront failed: Empty list!\n";
         exit(1);
     }
     else
