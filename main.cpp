@@ -1,9 +1,9 @@
 #include<iostream>
 #include"Node.h"
 #include"SortedList.h"
-#include "Queue.h"
-#include "DataElement.h"
-#include "Event.h"
+//#include "Queue.h"
+//#include "DataElement.h"
+//#include "Event.h"
 #include<ctime>
 
 using namespace std;
@@ -25,6 +25,10 @@ int main()
     aList.insertSorted(21);
     aList.insertSorted(15);
     aList.insertSorted(4);
+    aList.insertSorted(21);
+    aList.insertSorted(16);
+    aList.insertSorted(4);
+    
     cout<<"================\n";
     aList.displayList();
     cout<<"================\n";
@@ -48,9 +52,9 @@ int main()
     aList.displayList();
     cout<<"================\n";
     //Test getPosition() function
-    cout<<"The postion of 25 is "<<aList.getPosition(25)<<endl;
+    cout<<"The postion of 20 is "<<aList.getPosition(20)<<endl;
     cout<<"The postion of 2 is "<<aList.getPosition(2)<<endl;
-    cout<<"The postion of 11 is "<<aList.getPosition(11)<<endl;
+    cout<<"The postion of 14 is "<<aList.getPosition(14)<<endl;
     return 0;
 }
 

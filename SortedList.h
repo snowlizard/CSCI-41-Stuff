@@ -197,48 +197,54 @@ void SortedList<ItemType>::insertSorted( const ItemType &newEntry )
  template<class ItemType>
  bool SortedList<ItemType>::removeSorted( const ItemType &anEntry )
  {
-     int iPos = getPosition( anEntry );
-     if ( iPos == 0 )
+     Node<ItemType>* curNode = head;
+     //Node<ItemType>* tmpNode = curNode;
+     bool succuess = false;
+     
+     while ( curNode != NULL )
      {
-         return false;
+         if ( curNode->getItem() == anEntry )
+         {
+             int iPos = getPosition(anEntry);
+             remove( iPos );
+             succuess = true;
+         }
+         
+         curNode = curNode->getNext();
      }
-     else if ( remove( iPos ) )
-     {
-         return true;
-     }
-     else
-     {
-         return false;
-     }
+     return succuess;
  }
 
 
 template<class ItemType>
 int SortedList<ItemType>::getPosition( const ItemType &newEntry ) const
 {
-    // Not done need to check for invalid/ non existent input
-    // problem when its out of range
-    int counter = 1, pos = 0;
-    bool exists = false;
+    
+    int counter = 1;
     Node<ItemType> *curNode = head;
+    SortedList<ItemType> tmpList;
+    
+    int n = newEntry;
+    tmpList.insertSorted(n);
     
     while ( curNode != NULL )
     {
-        if ( curNode->getItem() == newEntry )
-        {
-            exists = true;
-            pos = counter;
-            break;
-        }
-        else
-        {
-            counter++;
-            curNode = curNode->getNext();
-        }
+        tmpList.insertSorted(curNode->getItem() );
+        curNode = curNode->getNext();
     }
     
-    if ( exists ){ return pos;}
-    else { return 0; }
+    while ( !tmpList.isEmpty() )
+    {
+        if ( tmpList.getEntry(counter) == newEntry )
+        {
+            return counter;
+        }
+        
+        counter++;
+        
+    }
+    
+    return counter;
 }
 #endif
 

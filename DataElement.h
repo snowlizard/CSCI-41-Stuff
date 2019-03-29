@@ -13,7 +13,7 @@ public:
     int getArrivalTime();
     void setTransactionTime(int traTime);
     int getTransactionTime();
-    friend ostream &operator<<(ostream &, DataElement &);
+//    friend ostream &operator<<(ostream &, DataElement &);
 };
 
 DataElement::DataElement()
