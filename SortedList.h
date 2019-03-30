@@ -198,7 +198,6 @@ void SortedList<ItemType>::insertSorted( const ItemType &newEntry )
  bool SortedList<ItemType>::removeSorted( const ItemType &anEntry )
  {
      Node<ItemType>* curNode = head;
-     //Node<ItemType>* tmpNode = curNode;
      bool succuess = false;
      
      while ( curNode != NULL )

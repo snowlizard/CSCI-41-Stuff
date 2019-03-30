@@ -1,60 +1,80 @@
-#include<iostream>
-#include"Node.h"
-#include"SortedList.h"
-//#include "Queue.h"
-//#include "DataElement.h"
-//#include "Event.h"
-#include<ctime>
+//Phase II Testing Program
 
+#include<iostream>
+#include"DataElement.h"
+#include"SortedList.h"
+#include"Event.h"
+#include"Queue.h"
 using namespace std;
+
+const int SIZE = 6;
+void processArrival(int &customer,
+                    DataElement  iFile[], int  length,
+                    SortedList<Event>  &eList, Queue<DataElement>  &bQueue);
+
+void processDeparture(SortedList<Event>  &eList, Queue<DataElement>  &bQueue, int &wTime);
+
 int main()
 {
-    SortedList<int> aList;
-    //Test inserSorted() funciton
-    srand(static_cast<unsigned int>(time(NULL)));
-    for(int i=0;i<8;i++){
-        aList.insertSorted(rand()%100);
-    }
-    cout<<"================\n";
-    aList.displayList();
-    cout<<"================\n";
-    //Test clear() function
-    aList.clear();
-    aList.insertSorted(17);
-    aList.insertSorted(5);
-    aList.insertSorted(21);
-    aList.insertSorted(15);
-    aList.insertSorted(4);
-    aList.insertSorted(21);
-    aList.insertSorted(16);
-    aList.insertSorted(4);
-    
-    cout<<"================\n";
-    aList.displayList();
-    cout<<"================\n";
-    //Test removeSorted() function
-    if(!aList.removeSorted(20)){
-        cout<<"Removal failed!\n";
-    }
-    if(!aList.removeSorted(15)){
-        cout<<"Removal failed!\n";
-    }
-    cout<<"================\n";
-    aList.displayList();
-    cout<<"================\n";
-    if(!aList.removeSorted(4)){
-        cout<<"Removal failed!\n";
-    }
-    if(!aList.removeSorted(21)){
-        cout<<"Removal failed!\n";
-    }
-    cout<<"================\n";
-    aList.displayList();
-    cout<<"================\n";
-    //Test getPosition() function
-    cout<<"The postion of 20 is "<<aList.getPosition(20)<<endl;
-    cout<<"The postion of 2 is "<<aList.getPosition(2)<<endl;
-    cout<<"The postion of 14 is "<<aList.getPosition(14)<<endl;
+    //Set up an array of DataElement with the data the bank provided:
+    DataElement bankData[SIZE] = {
+        DataElement(20,5),DataElement(22,4),DataElement(23,2),
+        DataElement(30,3),DataElement(40,3),DataElement(41,4) };
+    //Declare an instance of class template Queue
+    Queue<DataElement> bankQueue;
+    //Declare an instance of class template List
+    SortedList<Event> eventList;
+    int customer = 0;
+    int waitingTime;
+    int counter = 1;
+    int totalWaitingTime = 0;
+    //Testing the function processArrial():
+    Event aEvent1('A', 20);  //create an arrival event
+    eventList.insertSorted(aEvent1); //insert above arrival event into eventList
+    processArrival(customer, bankData, SIZE, eventList, bankQueue);
+    //Above function
+    //1. insert a departure event ('D',25) into eventList
+    //2. add current customer (20,5) to the bankQueue
+    //3. remove first event from the eventList
+    //4. insert next arrival event ('A',22) to the eventList
+    //Check above actions:
+    Event c = eventList.getEntry(1);
+    cout << c << endl; //take a look a the first event in the eventList('A',22)
+    eventList.remove(1); //remove the first event from the eventList
+    cout << eventList.getEntry(1).getOccurTime() << endl;//and take a
+    //look at the second event in eventList ('D',25)
+    //Take a look at the customer who is in front of the queue (20,5)
+    DataElement d = bankQueue.peekFront();
+    cout << d << endl;
+    cout << "===================\n";
+    //Testing the function processDeparture():
+    DataElement newCustomer(22, 4);
+    bankQueue.enqueue(newCustomer);
+    cout << "A customer is leaveing at " <<
+    eventList.getEntry(1).getOccurTime() << endl;
+    processDeparture(eventList, bankQueue, waitingTime);
+    cout << "Next customer's transection begins, and waiting time is "
+    << waitingTime << endl;
+    c = eventList.getEntry(1);
+    cout << c << endl; //take a look a the first event in the eventList('D',29)
+    system("pause");
     return 0;
+}
+void processArrival(int &customer,
+                    DataElement  iFile[], int  length,
+                    SortedList<Event>  &eList, Queue<DataElement>  &bQueue)
+{
+    if ( bQueue.isEmpty() )
+    {
+    // calculate arrive time and transaction time
+    // insert an event ex: event new( arrivalTime, transactionTime);
+    
+    
+    // eList.insertSorted( Event( arTime , traTime ) );
+    }
+}
+void processDeparture(SortedList<Event>  &eList, Queue<DataElement>
+                      &bQueue, int &wTime)
+{
 }
 

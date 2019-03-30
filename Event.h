@@ -21,7 +21,8 @@ public:
 
 Event::Event()
 {
-    
+    eventStatus = 'A';
+    occurTime   = 0;
 }
 
 Event::Event( char eState, int oTime )
@@ -50,15 +51,15 @@ int Event::getOccurTime()
     return occurTime;
 }
 //==================== Operator Overloading =======
-/**
+
 bool Event::operator>( const Event &anEvent ) const
 {
-    
+    return  > anEvent;
 }
 
 bool Event::operator==( const Event &anEvent ) const
 {
     
 }
-**/
+
 #endif 
