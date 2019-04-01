@@ -51,9 +51,11 @@ int DataElement::getTransactionTime()
 }
 
 
-ostream& operator<<( ostream &, DataElement & )
+ostream& operator<<( ostream &os, DataElement &de )
 {
-    
+    os << "ArrivalTime: " << de.getArrivalTime() << endl;
+    os << "TransactionTime: " << de.getTransactionTime() << endl;
+    return os;
 }
 
 #endif
