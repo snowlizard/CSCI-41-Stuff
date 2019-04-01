@@ -66,6 +66,8 @@ void processArrival(int &customer,
 {
     if ( bQueue.isEmpty() )
     {
+        DataElement arTime = iFile[customer];
+        
     // calculate arrive time and transaction time
     // insert an event ex: event new( arrivalTime, transactionTime);
     
