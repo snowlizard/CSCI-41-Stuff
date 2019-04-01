@@ -10,9 +10,9 @@ public:
     Event();
     Event(char eState, int oTime);
     void setEventStatus(char eStatus);
-    char getEventStatus();
+    char getEventStatus() const;
     void setOccurTime(int oTime);
-    int getOccurTime();
+    int getOccurTime() const;
     //operatro overloading
     bool operator>(const Event &anEvent) const;
     bool operator==(const Event &anEvent) const;
@@ -36,7 +36,7 @@ void Event::setEventStatus( char eStatus )
     eventStatus = eStatus;
 }
 
-char Event::getEventStatus()
+char Event::getEventStatus() const
 {
     return eventStatus;
 }
@@ -46,7 +46,7 @@ void Event::setOccurTime( int oTime )
     occurTime = oTime;
 }
 
-int Event::getOccurTime()
+int Event::getOccurTime() const
 {
     return occurTime;
 }
@@ -54,12 +54,24 @@ int Event::getOccurTime()
 
 bool Event::operator>( const Event &anEvent ) const
 {
-    return  > anEvent;
+    if ( getOccurTime() > anEvent.getOccurTime() )
+    {
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 bool Event::operator==( const Event &anEvent ) const
 {
-    
+    if ( getEventStatus() == anEvent.getEventStatus() )
+    {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 #endif 
