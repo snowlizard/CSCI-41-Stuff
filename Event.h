@@ -74,4 +74,11 @@ bool Event::operator==( const Event &anEvent ) const
     }
 }
 
+ostream& operator<<( ostream &out, Event &anEvent )
+{
+    out << "Event status: " << anEvent.getEventStatus() << endl;
+    out << "Event time: " << anEvent.getOccurTime() << endl;
+    return out;
+}
+
 #endif 
