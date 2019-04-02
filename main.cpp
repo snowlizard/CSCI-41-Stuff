@@ -57,26 +57,32 @@ int main()
     << waitingTime << endl;
     c = eventList.getEntry(1);
     cout << c << endl; //take a look a the first event in the eventList('D',29)
-    system("pause");
+    //system("pause");
     return 0;
 }
-void processArrival(int &customer,
-                    DataElement  iFile[], int  length,
+void processArrival(int &customer, DataElement  iFile[], int  length,
                     SortedList<Event>  &eList, Queue<DataElement>  &bQueue)
 {
+    int adTime, tTime, oTime;
     if ( bQueue.isEmpty() )
     {
         DataElement pCust = iFile[customer];
-        int adtime = pCust.getArrivalTime();
-        int tTime  = pCust.getTransactionTime();
-        int oTime  = adtime + tTime;
+        adTime = pCust.getArrivalTime();
+        tTime  = pCust.getTransactionTime();
+        oTime  = adTime + tTime;
         Event nEvent( 'D' , oTime );
-    // calculate arrive time and transaction time
-    // insert an event ex: event new( arrivalTime, transactionTime);
-    
-    
-    // eList.insertSorted( Event( arTime , traTime ) );
+        eList.insertSorted( nEvent );
     }
+    bQueue.enqueue(iFile[customer]);
+    eList.remove(1);
+    if ( customer < length ) // not reaching end of bankdata array // condition of if loop
+    {
+        // read data of next customer, create arrival event & insert to eList
+        DataElement nCust = iFile[customer+1];
+        Event nextEvent( 'A', nCust.getArrivalTime() );
+        eList.insertSorted(nextEvent);
+    }
+    
 }
 void processDeparture(SortedList<Event>  &eList, Queue<DataElement>
                       &bQueue, int &wTime)
