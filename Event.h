@@ -15,6 +15,7 @@ public:
     int getOccurTime() const;
     //operatro overloading
     bool operator>(const Event &anEvent) const;
+    bool operator<(const Event &anEvent) const;
     bool operator==(const Event &anEvent) const;
     friend ostream &operator<<(ostream &out, Event &anEvent);
 };
@@ -61,6 +62,10 @@ bool Event::operator>( const Event &anEvent ) const
     else{
         return false;
     }
+}
+bool Event::operator<( const Event &anEvent ) const
+{
+    return ( getOccurTime() < anEvent.getOccurTime() );
 }
 
 bool Event::operator==( const Event &anEvent ) const
