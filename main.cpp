@@ -100,3 +100,21 @@ void processDeparture(SortedList<Event>  &eList, Queue<DataElement>
     }
 }
 
+/**
+ psuedo code for main while loop
+ 
+ 1. create an ArrivalEvent & insert into eventlist
+ 2. while ( eventList is not Empty )
+ {
+    "look" at event infront of eventList
+    if ( it is an arrivalEvent )
+    {
+        processArrival();
+    }
+    else
+    {
+        processDeparture;
+    }
+ }
+ 
+ **/
