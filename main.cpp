@@ -14,6 +14,47 @@ void processArrival(int &customer,
 
 void processDeparture(SortedList<Event>  &eList, Queue<DataElement>  &bQueue, int &wTime);
 
+
+int main()
+{
+    DataElement bankData[SIZE] = {
+        DataElement(20,5),DataElement(22,4),DataElement(23,2),
+        DataElement(30,3),DataElement(40,3),DataElement(41,4) };
+    //Declare an instance of class template Queue
+    Queue<DataElement> bankQueue;
+    //Declare an instance of class template List
+    SortedList<Event> eventList;
+    int customer = 0;
+    int waitingTime;
+    int counter = 1;
+    
+    
+    Event fcustomer( 'A', 20 );
+    eventList.insertSorted( fcustomer );
+    //cout << "=========================================================================\n";
+    //cout << "Customer\tArrival Time\tTransaction begins\tDeparture Time\tWaiting time\n";
+    while ( !eventList.isEmpty() )
+    {
+        cout << customer << "\t\t\t" << eventList.getEntry(1).getOccurTime() << "\t";
+        cout << eventList.getEntry(1).getEventStatus();
+        if ( eventList.getEntry(1).getEventStatus() == 'A' )
+        {
+            processArrival(customer, bankData , SIZE, eventList, bankQueue );
+            customer++;
+        }
+        else{
+            
+            processDeparture( eventList, bankQueue, waitingTime );
+          //  cout << "Customer has departed\n";
+        }
+        counter++;
+        cout << endl;
+    }
+    
+    return 0;
+}
+
+/**
 int main()
 {
     //Set up an array of DataElement with the data the bank provided:
@@ -39,6 +80,7 @@ int main()
     //4. insert next arrival event ('A',22) to the eventList
     //Check above actions:
     Event c = eventList.getEntry(1);
+    cout << "this must be 22\n";
     cout << c << endl; //take a look a the first event in the eventList('A',22)
     eventList.remove(1); //remove the first event from the eventList
     cout << eventList.getEntry(1).getOccurTime() << endl;//and take a
@@ -59,6 +101,9 @@ int main()
     cout << c << endl; //take a look a the first event in the eventList('D',29)
     return 0;
 }
+
+**/
+
 void processArrival(int &customer, DataElement  iFile[], int  length,
                     SortedList<Event>  &eList, Queue<DataElement>  &bQueue)
 {
@@ -71,33 +116,35 @@ void processArrival(int &customer, DataElement  iFile[], int  length,
         oTime  = adTime + tTime;
         Event nEvent( 'D' , oTime );
         eList.insertSorted( nEvent );
-        customer++;
     }
     
     bQueue.enqueue(iFile[customer]);
     eList.remove(1);
-    if ( customer < length )
+    if ( customer != length -1 )
     {
+        
         DataElement nCust = iFile[customer+1];
         Event nextEvent( 'A', nCust.getArrivalTime() );
         eList.insertSorted(nextEvent);
     }
-    
+    //cout << customer << "cust\n";
 }
 void processDeparture(SortedList<Event>  &eList, Queue<DataElement>
                       &bQueue, int &wTime)
 {
-    int time1 = eList.getEntry(1).getOccurTime();
-    int time2 = bQueue.peekFront().getTransactionTime();
-    int total = time1 + time2;
-    wTime = time1 - bQueue.peekFront().getArrivalTime();
     bQueue.dequeue();
+    //eList.remove(1);
     if ( !bQueue.isEmpty() )
     {
-        eList.remove(1);
+        //cout << "not working\n";
+        int time1 = eList.getEntry(1).getOccurTime();
+        int time2 = bQueue.peekFront().getTransactionTime();
+        int total = time1 + time2;
+        wTime = time1 - bQueue.peekFront().getArrivalTime();
         Event dEvent('D', total );
         eList.insertSorted( dEvent );
     }
+    eList.remove(1);
 }
 
 /**
