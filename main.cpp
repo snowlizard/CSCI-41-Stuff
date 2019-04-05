@@ -27,82 +27,35 @@ int main()
     int customer = 0;
     int waitingTime;
     int counter = 1;
+    int totalWait=0;
     
     
     Event fcustomer( 'A', 20 );
     eventList.insertSorted( fcustomer );
-    //cout << "=========================================================================\n";
-    //cout << "Customer\tArrival Time\tTransaction begins\tDeparture Time\tWaiting time\n";
+    cout << "=========================================================================\n";
+    cout << "Customer\tArrival Time\tTransaction begins\tDeparture Time\tWaiting time\n";
     while ( !eventList.isEmpty() )
     {
-        cout << customer << "\t\t\t" << eventList.getEntry(1).getOccurTime() << "\t";
-        cout << eventList.getEntry(1).getEventStatus();
+    
         if ( eventList.getEntry(1).getEventStatus() == 'A' )
         {
             processArrival(customer, bankData , SIZE, eventList, bankQueue );
             customer++;
+            cout << customer << "\t\t\t" << bankData[customer-1].getArrivalTime();
+            cout << endl;
         }
         else{
             
             processDeparture( eventList, bankQueue, waitingTime );
-            //cout << "waited for :" << waitingTime;
+            totalWait+=waitingTime;
+            //cout << endl;
         }
+        
         counter++;
-        cout << endl;
     }
-    
+    cout << "Total wait time of: " << totalWait << endl;
     return 0;
 }
-
-/**
-int main()
-{
-    //Set up an array of DataElement with the data the bank provided:
-    DataElement bankData[SIZE] = {
-        DataElement(20,5),DataElement(22,4),DataElement(23,2),
-        DataElement(30,3),DataElement(40,3),DataElement(41,4) };
-    //Declare an instance of class template Queue
-    Queue<DataElement> bankQueue;
-    //Declare an instance of class template List
-    SortedList<Event> eventList;
-    int customer = 0;
-    int waitingTime;
-    int counter = 1;
-    int totalWaitingTime = 0;
-    //Testing the function processArrial():
-    Event aEvent1('A', 20);  //create an arrival event
-    eventList.insertSorted(aEvent1); //insert above arrival event into eventList
-    processArrival(customer, bankData, SIZE, eventList, bankQueue);
-    //Above function
-    //1. insert a departure event ('D',25) into eventList
-    //2. add current customer (20,5) to the bankQueue
-    //3. remove first event from the eventList
-    //4. insert next arrival event ('A',22) to the eventList
-    //Check above actions:
-    Event c = eventList.getEntry(1);
-    cout << "this must be 22\n";
-    cout << c << endl; //take a look a the first event in the eventList('A',22)
-    eventList.remove(1); //remove the first event from the eventList
-    cout << eventList.getEntry(1).getOccurTime() << endl;//and take a
-    //look at the second event in eventList ('D',25)
-    //Take a look at the customer who is in front of the queue (20,5)
-    DataElement d = bankQueue.peekFront();
-    cout << d << endl;
-    cout << "===================\n";
-    //Testing the function processDeparture():
-    DataElement newCustomer(22, 4);
-    bankQueue.enqueue(newCustomer);
-    cout << "A customer is leaveing at " <<
-    eventList.getEntry(1).getOccurTime() << endl;
-    processDeparture(eventList, bankQueue, waitingTime);
-    cout << "Next customer's transection begins, and waiting time is "
-    << waitingTime << endl;
-    c = eventList.getEntry(1);
-    cout << c << endl; //take a look a the first event in the eventList('D',29)
-    return 0;
-}
-
-**/
 
 void processArrival(int &customer, DataElement  iFile[], int  length,
                     SortedList<Event>  &eList, Queue<DataElement>  &bQueue)
@@ -137,35 +90,14 @@ void processDeparture(SortedList<Event>  &eList, Queue<DataElement>
     eList.remove(1);
     if ( !bQueue.isEmpty() )
     {
-        
-        //int time1 = eList.getEntry(1).getOccurTime();// previous cust
         int time2 = bQueue.peekFront().getTransactionTime();
         int total = time1 + time2;
         wTime = time1 - bQueue.peekFront().getArrivalTime();
-        cout << " wait " << wTime;
-        if (wTime == 0 ) { cout << "0";}
+        
         Event dEvent('D', total );
         eList.insertSorted( dEvent );
     }
-    //bQueue.dequeue();
-    //eList.remove(1);
+    else{ wTime = 0; }
+
 }
 
-/**
- psuedo code for main while loop
- 
- 1. create an ArrivalEvent & insert into eventlist
- 2. while ( eventList is not Empty )
- {
-    "look" at event infront of eventList
-    if ( it is an arrivalEvent )
-    {
-        processArrival();
-    }
-    else
-    {
-        processDeparture;
-    }
- }
- 
- **/
