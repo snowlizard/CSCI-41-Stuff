@@ -45,7 +45,7 @@ int main()
         else{
             
             processDeparture( eventList, bankQueue, waitingTime );
-          //  cout << "Customer has departed\n";
+            //cout << "waited for :" << waitingTime;
         }
         counter++;
         cout << endl;
@@ -132,19 +132,23 @@ void processArrival(int &customer, DataElement  iFile[], int  length,
 void processDeparture(SortedList<Event>  &eList, Queue<DataElement>
                       &bQueue, int &wTime)
 {
+    int time1 = eList.getEntry(1).getOccurTime();
     bQueue.dequeue();
-    //eList.remove(1);
+    eList.remove(1);
     if ( !bQueue.isEmpty() )
     {
-        //cout << "not working\n";
-        int time1 = eList.getEntry(1).getOccurTime();
+        
+        //int time1 = eList.getEntry(1).getOccurTime();// previous cust
         int time2 = bQueue.peekFront().getTransactionTime();
         int total = time1 + time2;
         wTime = time1 - bQueue.peekFront().getArrivalTime();
+        cout << " wait " << wTime;
+        if (wTime == 0 ) { cout << "0";}
         Event dEvent('D', total );
         eList.insertSorted( dEvent );
     }
-    eList.remove(1);
+    //bQueue.dequeue();
+    //eList.remove(1);
 }
 
 /**
