@@ -25,7 +25,7 @@ int main()
     //Declare an instance of class template List
     SortedList<Event> eventList;
     int customer = 0;
-    int waitingTime;
+    int waitingTime=0;
     int counter = 1;
     int totalWait=0;
     
@@ -41,18 +41,19 @@ int main()
         {
             processArrival(customer, bankData , SIZE, eventList, bankQueue );
             customer++;
-            cout << customer << "\t\t\t" << bankData[customer-1].getArrivalTime();
-            cout << endl;
         }
         else{
-            
+            cout << counter << "\t\t\t" << bankData[counter-1].getArrivalTime();
+            cout << "\t\t\t\t" << bankData[counter-1].getArrivalTime() + waitingTime;
+            cout << "\t\t\t\t\t" << eventList.getEntry(1).getOccurTime();
+            cout << "\t\t\t\t" << waitingTime;
             processDeparture( eventList, bankQueue, waitingTime );
             totalWait+=waitingTime;
-            //cout << endl;
+            counter++;
+            cout << endl;
         }
-        
-        counter++;
     }
+    
     cout << "Total wait time of: " << totalWait << endl;
     return 0;
 }
