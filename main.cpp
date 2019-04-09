@@ -1,104 +1,103 @@
-//Phase II Testing Program
-
 #include<iostream>
 #include"DataElement.h"
 #include"SortedList.h"
 #include"Event.h"
 #include"Queue.h"
+#include<stdlib.h>
+#include <iomanip>
 using namespace std;
-
-const int SIZE = 6;
-void processArrival(int &customer,
-                    DataElement  iFile[], int  length,
-                    SortedList<Event>  &eList, Queue<DataElement>  &bQueue);
-
+const int SIZE = 10;
+void processArrival(int &customer, DataElement  iFile[], int  length, SortedList<Event>  &eList, Queue<DataElement>  &bQueue);
 void processDeparture(SortedList<Event>  &eList, Queue<DataElement>  &bQueue, int &wTime);
 
 
 int main()
 {
-    DataElement bankData[SIZE] = {
-        DataElement(20,5),DataElement(22,4),DataElement(23,2),
-        DataElement(30,3),DataElement(40,3),DataElement(41,4) };
-    //Declare an instance of class template Queue
+    
+    int depart[SIZE];
+    int Twt[SIZE];
+    int wT[SIZE];
+    DataElement bankData[SIZE] = { DataElement(1,5),DataElement(2,3),DataElement(4,2), DataElement(20,2),DataElement(22,6),DataElement(24,4), DataElement(26,1), DataElement(28,3), DataElement(30,2), DataElement(88,5) };
     Queue<DataElement> bankQueue;
-    //Declare an instance of class template List
+    
+    
     SortedList<Event> eventList;
+    Event aEvent1('A', 1);
+    wT[0] = 0;
+    eventList.insertSorted(aEvent1);
     int customer = 0;
-    int waitingTime=0;
+    int waitingTime;
     int counter = 1;
-    int totalWait=0;
-    
-    
-    Event fcustomer( 'A', 20 );
-    eventList.insertSorted( fcustomer );
-    cout << "=========================================================================\n";
-    cout << "Customer\tArrival Time\tTransaction begins\tDeparture Time\tWaiting time\n";
-    while ( !eventList.isEmpty() )
+    double totalWaitingTime = 0;
+    while (!eventList.isEmpty())
     {
-    
-        if ( eventList.getEntry(1).getEventStatus() == 'A' )
+        if (eventList.getEntry(1).getEventStatus() == 'A')
         {
-            processArrival(customer, bankData , SIZE, eventList, bankQueue );
+            processArrival(customer, bankData, SIZE, eventList, bankQueue);
             customer++;
         }
-        else{
-            cout << counter << "\t\t\t" << bankData[counter-1].getArrivalTime();
-            cout << "\t\t\t\t" << bankData[counter-1].getArrivalTime() + waitingTime;
-            cout << "\t\t\t\t\t" << eventList.getEntry(1).getOccurTime();
-            cout << "\t\t\t\t" << waitingTime;
-            processDeparture( eventList, bankQueue, waitingTime );
-            totalWait+=waitingTime;
-            counter++;
-            cout << endl;
+        else
+        {
+            if (counter != SIZE + 1)
+            {
+                depart[counter - 1] = eventList.getEntry(1).getOccurTime();
+            }
+            processDeparture(eventList, bankQueue, waitingTime);
+            if (counter != SIZE)
+            {
+                wT[counter] = waitingTime;
+                totalWaitingTime = totalWaitingTime + waitingTime;
+                counter++;
+            }
         }
     }
+    for (int i = 0; i < SIZE; i++) {
+        Twt[i] = bankData[i].getArrivalTime() + wT[i];
+    }
+    cout << "\n\n";
+    cout << "Customer Number\t" << setw(20) << " Arrival Time\t" << setw(20) << " Transaction Begins\t" << setw(20) << " Transaction Time\t" << setw(20) << " Departure Time\t" << setw(20) << " Waiting Time\n";
+    for (int i = 0; i < SIZE; i++)
+    {
+        cout << i + 1 << "\t" << setw(20) << bankData[i].getArrivalTime() << "\t" << setw(20) << Twt[i] << "\t" << setw(20) << bankData[i].getTransactionTime() << "\t" << setw(20) << depart[i] << "\t" << setw(20) << wT[i] << "\n";
+    }
+    cout << endl;
+    double aveTime = static_cast<double>(totalWaitingTime) / SIZE;
+    cout << "The average wait time is  " << aveTime << endl;
     
-    cout << "Total wait time of: " << totalWait << endl;
     return 0;
 }
 
-void processArrival(int &customer, DataElement  iFile[], int  length,
-                    SortedList<Event>  &eList, Queue<DataElement>  &bQueue)
+
+
+void processArrival(int &customer,DataElement  iFile[], int  length, SortedList<Event>  &eList, Queue<DataElement>  &bQueue)
 {
-    int adTime, tTime, oTime;
-    if ( bQueue.isEmpty() )
+    if (bQueue.isEmpty())
     {
-        DataElement pCust = iFile[customer];
-        adTime = pCust.getArrivalTime();
-        tTime  = pCust.getTransactionTime();
-        oTime  = adTime + tTime;
-        Event nEvent( 'D' , oTime );
-        eList.insertSorted( nEvent );
+        Event anE('D', iFile[customer].getArrivalTime() + iFile[customer].getTransactionTime());
+        eList.insertSorted(anE);
     }
-    
     bQueue.enqueue(iFile[customer]);
     eList.remove(1);
-    if ( customer != length -1 )
+    if (customer != length - 1)
     {
-        
-        DataElement nCust = iFile[customer+1];
-        Event nextEvent( 'A', nCust.getArrivalTime() );
-        eList.insertSorted(nextEvent);
+        Event secE('A', iFile[customer + 1].getArrivalTime());
+        eList.insertSorted(secE);
     }
-    //cout << customer << "cust\n";
 }
-void processDeparture(SortedList<Event>  &eList, Queue<DataElement>
-                      &bQueue, int &wTime)
-{
-    int time1 = eList.getEntry(1).getOccurTime();
-    bQueue.dequeue();
-    eList.remove(1);
-    if ( !bQueue.isEmpty() )
-    {
-        int time2 = bQueue.peekFront().getTransactionTime();
-        int total = time1 + time2;
-        wTime = time1 - bQueue.peekFront().getArrivalTime();
-        
-        Event dEvent('D', total );
-        eList.insertSorted( dEvent );
-    }
-    else{ wTime = 0; }
 
+void processDeparture(SortedList<Event>  &eList, Queue<DataElement>  &bQueue, int &wTime)
+{
+    bQueue.dequeue();
+    if (!bQueue.isEmpty())
+    {
+        Event nextE('D', (eList.getEntry(1).getOccurTime()) + bQueue.peekFront().getTransactionTime());
+        eList.insertSorted(nextE);
+        wTime = eList.getEntry(1).getOccurTime() - bQueue.peekFront().getArrivalTime();
+    }
+    else if (bQueue.isEmpty())
+    {
+        wTime = 0;
+    }
+    eList.remove(1);
 }
 
