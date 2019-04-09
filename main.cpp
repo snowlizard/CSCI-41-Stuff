@@ -1,103 +1,106 @@
-#include<iostream>
-#include"DataElement.h"
-#include"SortedList.h"
-#include"Event.h"
-#include"Queue.h"
-#include<stdlib.h>
+#include <iostream>
 #include <iomanip>
-using namespace std;
-const int SIZE = 10;
-void processArrival(int &customer, DataElement  iFile[], int  length, SortedList<Event>  &eList, Queue<DataElement>  &bQueue);
-void processDeparture(SortedList<Event>  &eList, Queue<DataElement>  &bQueue, int &wTime);
+#include "PQueue.h"
+#include "PatientRecord.h"
 
+using namespace std;
+
+void showMenu()
+{
+    cout << "Please select one of the following:\n";
+    cout << "+" << setfill('-')<< setw(35)<<"+" <<endl;
+    cout << setfill(' ');
+    cout <<"|"<< "1. Register a Patient." <<setw(12)<< "|\n";
+    cout <<"|" << "2. Display Patient Queue."<<setw(9) <<"|\n";
+    cout <<"|"<<"3. Remove a patient from Queue."<<setw(3)<<"|\n";
+    cout <<"|"<< "4. Close registration."<<setw(12)<<"|\n";
+    cout << "+" << setfill('-')<< setw(35)<<"+" <<endl;
+    
+}
+// not working need to check for invalid input
+void getpatientInfo(PQueue<PatientRecord> &pq)
+{
+    string info;
+    int priority;
+    PatientRecord temp;
+    
+    cout << "Enter patient Last name: \n";
+    cin >> info;
+    temp.setLast(info);
+    cout << "Enter patient First name: \n";
+    cin >> info;
+    temp.setFirst(info);
+    cout << "Enter patient date of birth: \n";
+    cin >> info;
+    temp.setDOB(info);
+    cout << "Enter patient symptoms: \n";
+    cin >> info;
+    temp.setSymptoms(info);
+    cout << "Enter patient priority number: \n";
+    cin >> priority;
+    temp.setPriority(priority);
+    pq.enqueue(temp);
+    
+}
 
 int main()
 {
     
-    int depart[SIZE];
-    int Twt[SIZE];
-    int wT[SIZE];
-    DataElement bankData[SIZE] = { DataElement(1,5),DataElement(2,3),DataElement(4,2), DataElement(20,2),DataElement(22,6),DataElement(24,4), DataElement(26,1), DataElement(28,3), DataElement(30,2), DataElement(88,5) };
-    Queue<DataElement> bankQueue;
+    PQueue<PatientRecord> pq;
     
+    int action;
+    string str;
+    bool running = true;
     
-    SortedList<Event> eventList;
-    Event aEvent1('A', 1);
-    wT[0] = 0;
-    eventList.insertSorted(aEvent1);
-    int customer = 0;
-    int waitingTime;
-    int counter = 1;
-    double totalWaitingTime = 0;
-    while (!eventList.isEmpty())
+    while ( running )
     {
-        if (eventList.getEntry(1).getEventStatus() == 'A')
+        showMenu();
+        cin >> action;
+        
+        if ( action == 1 )
         {
-            processArrival(customer, bankData, SIZE, eventList, bankQueue);
-            customer++;
+            getpatientInfo(pq);
         }
-        else
+        else if ( action == 2)
         {
-            if (counter != SIZE + 1)
-            {
-                depart[counter - 1] = eventList.getEntry(1).getOccurTime();
-            }
-            processDeparture(eventList, bankQueue, waitingTime);
-            if (counter != SIZE)
-            {
-                wT[counter] = waitingTime;
-                totalWaitingTime = totalWaitingTime + waitingTime;
-                counter++;
-            }
+            pq.displayQueue();
+        }
+        else if ( action == 3 )
+        {
+            pq.dequeue();
+        }
+        else if ( action == 4 ){
+            cout << "Closing registration!\n";
+            running = false;
+        }
+        else {
+            cout << "ERROR: Invalid Input\n";
         }
     }
-    for (int i = 0; i < SIZE; i++) {
-        Twt[i] = bankData[i].getArrivalTime() + wT[i];
-    }
-    cout << "\n\n";
-    cout << "Customer Number\t" << setw(20) << " Arrival Time\t" << setw(20) << " Transaction Begins\t" << setw(20) << " Transaction Time\t" << setw(20) << " Departure Time\t" << setw(20) << " Waiting Time\n";
-    for (int i = 0; i < SIZE; i++)
-    {
-        cout << i + 1 << "\t" << setw(20) << bankData[i].getArrivalTime() << "\t" << setw(20) << Twt[i] << "\t" << setw(20) << bankData[i].getTransactionTime() << "\t" << setw(20) << depart[i] << "\t" << setw(20) << wT[i] << "\n";
-    }
-    cout << endl;
-    double aveTime = static_cast<double>(totalWaitingTime) / SIZE;
-    cout << "The average wait time is  " << aveTime << endl;
-    
     return 0;
 }
 
-
-
-void processArrival(int &customer,DataElement  iFile[], int  length, SortedList<Event>  &eList, Queue<DataElement>  &bQueue)
-{
-    if (bQueue.isEmpty())
-    {
-        Event anE('D', iFile[customer].getArrivalTime() + iFile[customer].getTransactionTime());
-        eList.insertSorted(anE);
-    }
-    bQueue.enqueue(iFile[customer]);
-    eList.remove(1);
-    if (customer != length - 1)
-    {
-        Event secE('A', iFile[customer + 1].getArrivalTime());
-        eList.insertSorted(secE);
-    }
-}
-
-void processDeparture(SortedList<Event>  &eList, Queue<DataElement>  &bQueue, int &wTime)
-{
-    bQueue.dequeue();
-    if (!bQueue.isEmpty())
-    {
-        Event nextE('D', (eList.getEntry(1).getOccurTime()) + bQueue.peekFront().getTransactionTime());
-        eList.insertSorted(nextE);
-        wTime = eList.getEntry(1).getOccurTime() - bQueue.peekFront().getArrivalTime();
-    }
-    else if (bQueue.isEmpty())
-    {
-        wTime = 0;
-    }
-    eList.remove(1);
-}
-
+/**
+ int action;
+ menu();
+ 
+ cin >> action;
+ 
+ while ( action != 4)
+ {
+ if ( action == 4 )
+ {
+ cout << "Closing Registration!\n";
+ exit(0);
+ }
+ if ( action == 2 )
+ {
+ cout << "2\n";
+ }
+ else {
+ cout << "ERROR: Invalid Input\n";
+ }
+ menu();
+ cin >> action;
+ }
+ **/
