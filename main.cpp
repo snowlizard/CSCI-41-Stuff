@@ -17,7 +17,6 @@ void showMenu()
     cout << "+" << setfill('-')<< setw(35)<<"+" <<endl;
     
 }
-// not working need to check for invalid input
 void getpatientInfo(PQueue<PatientRecord> &pq)
 {
     string info;
@@ -25,19 +24,20 @@ void getpatientInfo(PQueue<PatientRecord> &pq)
     PatientRecord temp;
     
     cout << "Enter patient Last name: \n";
-    cin >> info;
+    getline(cin, info);
     temp.setLast(info);
     cout << "Enter patient First name: \n";
-    cin >> info;
+    getline(cin,info);
     temp.setFirst(info);
     cout << "Enter patient date of birth: \n";
-    cin >> info;
+    getline(cin,info);
     temp.setDOB(info);
     cout << "Enter patient symptoms: \n";
-    cin >> info;
+    getline(cin, info);
     temp.setSymptoms(info);
     cout << "Enter patient priority number: \n";
-    cin >> priority;
+    getline(cin, info);
+    priority = stoi(info);
     temp.setPriority(priority);
     pq.enqueue(temp);
     
@@ -48,30 +48,30 @@ int main()
     
     PQueue<PatientRecord> pq;
     
-    int action;
     string str;
     bool running = true;
     
     while ( running )
     {
         showMenu();
-        cin >> action;
+        getline(cin, str);
         
-        if ( action == 1 )
+        if ( str == "1" )
         {
             getpatientInfo(pq);
         }
-        else if ( action == 2)
+        else if ( str == "2")
         {
             pq.displayQueue();
         }
-        else if ( action == 3 )
+        else if ( str == "3" )
         {
             pq.dequeue();
         }
-        else if ( action == 4 ){
+        else if ( str == "4" ){
             cout << "Closing registration!\n";
             running = false;
+            exit(0);
         }
         else {
             cout << "ERROR: Invalid Input\n";
@@ -80,27 +80,3 @@ int main()
     return 0;
 }
 
-/**
- int action;
- menu();
- 
- cin >> action;
- 
- while ( action != 4)
- {
- if ( action == 4 )
- {
- cout << "Closing Registration!\n";
- exit(0);
- }
- if ( action == 2 )
- {
- cout << "2\n";
- }
- else {
- cout << "ERROR: Invalid Input\n";
- }
- menu();
- cin >> action;
- }
- **/
