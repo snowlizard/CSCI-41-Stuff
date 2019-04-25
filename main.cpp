@@ -2,6 +2,7 @@
 #include <iomanip>
 #include "PQueue.h"
 #include "PatientRecord.h"
+#include "BinaryTree.h"
 
 using namespace std;
 
