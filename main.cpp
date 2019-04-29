@@ -10,7 +10,11 @@ int main()
     BinaryTree<int> tree(100);
     
     tree.creatBinaryTree();
-    
+    tree.displayPreorder();
+    cout << endl;
+    tree.displayInorder();
+    cout << endl;
+    tree.displayPostorder();
     return 0;
 }
 

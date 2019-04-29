@@ -93,6 +93,7 @@ void BinaryTree<ItemType>::binaryTreeBuilder(BinaryNode<ItemType>
         binaryTreeBuilder(curNode);
     }
     cout << "Go Right?[Y/N]\n";
+    cout << "current parent " << aParent->getItem() << endl;
     cin >> usrInput;
     if ( usrInput == 'y' || usrInput == 'Y' )
     {
@@ -106,14 +107,32 @@ void BinaryTree<ItemType>::binaryTreeBuilder(BinaryNode<ItemType>
 template<class ItemType>
 void BinaryTree<ItemType>::preOrderVisit(BinaryNode<ItemType> *treeRoot)
 {
+    if ( treeRoot != NULL )
+    {
+        cout << treeRoot->getItem() << "\t";
+        preOrderVisit(treeRoot->getLeftChildPtr());
+        preOrderVisit(treeRoot->getRightChildPtr());
+    }
 }
 template<class ItemType>
 void BinaryTree<ItemType>::inOrderVisit(BinaryNode<ItemType> *treeRoot)
 {
+  if ( treeRoot != NULL )
+  {
+      inOrderVisit(treeRoot->getLeftChildPtr());
+      cout << treeRoot->getItem() << "\t";
+      inOrderVisit(treeRoot->getRightChildPtr());
+  }
 }
 template<class ItemType>
 void BinaryTree<ItemType>::postOrderVisit(BinaryNode<ItemType> *treeRoot)
 {
+    if ( treeRoot != NULL )
+    {
+        postOrderVisit(treeRoot->getLeftChildPtr());
+        postOrderVisit(treeRoot->getRightChildPtr());
+        cout << treeRoot->getItem() << "\t";
+    }
 }
 template<class ItemType>
 void BinaryTree<ItemType>::creatBinaryTree()
@@ -123,14 +142,17 @@ void BinaryTree<ItemType>::creatBinaryTree()
 template<class ItemType>
 void BinaryTree<ItemType>::displayPreorder()
 {
+    preOrderVisit(rootPtr);
 }
 template<class ItemType>
 void BinaryTree<ItemType>::displayInorder()
 {
+    inOrderVisit(rootPtr);
 }
 template<class ItemType>
 void BinaryTree<ItemType>::displayPostorder()
 {
+    postOrderVisit(rootPtr);
 }
 #endif
 
