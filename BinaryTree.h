@@ -17,6 +17,11 @@ protected:
     void preOrderVisit(BinaryNode<ItemType> *treeRoot);
     void inOrderVisit(BinaryNode<ItemType> *treeRoot);
     void postOrderVisit(BinaryNode<ItemType> *treeRoot);
+    // Assignment 16
+    BinaryNode<ItemType> *addNewItemHelper(BinaryNode<ItemType> *treeRoot,ItemType anItem);
+    ItemType getSumHelper(BinaryNode<ItemType> *treeRoot);
+    int getNumberOfNodesHelper(BinaryNode<ItemType> *treeRoot);
+    ItemType getMaxHelper(BinaryNode<ItemType> *treeRoot);
 public:
     //Constructors
     BinaryTree();
@@ -26,10 +31,15 @@ public:
     void setRootItem(const ItemType &rootItem);
     //Other member functions
     bool isEmpty() const;
-    void creatBinaryTree();
+    void createBinaryTree();
     void displayPreorder();
     void displayInorder();
     void displayPostorder();
+    // Assignment 16
+    void addNewItem(ItemType anItem);
+    ItemType getSum();
+    int getNumberOfNodes();
+    ItemType getMax();
 };
 //Constructors
 template<class ItemType>
@@ -80,6 +90,7 @@ void BinaryTree<ItemType>::binaryTreeBuilder(BinaryNode<ItemType>
         cout << "Enter data Item you wish to add to tree\n";
         cin >> userItem;
         aParent = new BinaryNode<ItemType>(userItem);
+        rootPtr = aParent;
     }
     cout << "Go Left?[Y/N]\n";
     cin >> usrInput;
@@ -135,7 +146,7 @@ void BinaryTree<ItemType>::postOrderVisit(BinaryNode<ItemType> *treeRoot)
     }
 }
 template<class ItemType>
-void BinaryTree<ItemType>::creatBinaryTree()
+void BinaryTree<ItemType>::createBinaryTree()
 {
     binaryTreeBuilder(rootPtr);
 }
@@ -154,5 +165,59 @@ void BinaryTree<ItemType>::displayPostorder()
 {
     postOrderVisit(rootPtr);
 }
+// Assignment 16 =================================
+template<class ItemType>
+BinaryNode<ItemType> *BinaryTree<ItemType>::addNewItemHelper(BinaryNode<ItemType>
+                                        *treeRoot,ItemType anItem)
+{
+}
+template<class ItemType>
+ItemType BinaryTree<ItemType>::getSumHelper(BinaryNode<ItemType> *treeRoot)
+{
+    if ( isEmpty() )
+    {
+        exit(0);
+    }
+    else {
+        return treeRoot->getItem() + getSumHelper(treeRoot->getLeftChildPtr()) + getSumHelper(treeRoot->getRightChildPtr());
+    }
+}
+template<class ItemType>
+int BinaryTree<ItemType>::getNumberOfNodesHelper(BinaryNode<ItemType> *treeRoot)
+{
+    if ( treeRoot == NULL )
+        return 0;
+    else
+    {
+        return 1 + getNumberOfNodesHelper(treeRoot->getLeftChildPtr()) + getNumberOfNodesHelper(treeRoot->getRightChildPtr());
+    }
+}
+template<class ItemType>
+ItemType BinaryTree<ItemType>::getMaxHelper(BinaryNode<ItemType> *treeRoot)
+{
+}
+
+template<class ItemType>
+void BinaryTree<ItemType>::addNewItem(ItemType anItem)
+{
+    return addNewItemHelper(rootPtr, anItem);
+}
+
+template<class ItemType>
+ItemType BinaryTree<ItemType>::getSum()
+{
+    return getSumHelper(rootPtr);
+}
+template<class ItemType>
+int BinaryTree<ItemType>::getNumberOfNodes()
+{
+    return getNumberOfNodesHelper(rootPtr);
+}
+template<class ItemType>
+ItemType BinaryTree<ItemType>::getMax()
+{
+    return getMaxHelper(rootPtr);
+}
+
 #endif
 
