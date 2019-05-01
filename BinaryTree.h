@@ -205,13 +205,13 @@ ItemType BinaryTree<ItemType>::getMaxHelper(BinaryNode<ItemType> *treeRoot)
         exit(0);
     if ( treeRoot->getLeftChildPtr() != NULL )
     {
-        return Max < getMaxHelper(treeRoot->getLeftChildPtr());
+        if ( Max < getMaxHelper(treeRoot->getLeftChildPtr()) )
+            Max = getMaxHelper(treeRoot->getLeftChildPtr());
     }
     if ( treeRoot->getRightChildPtr() != NULL )
     {
-        getMaxHelper(treeRoot->getRightChildPtr());
-        if ( Max < treeRoot->getItem() )
-            Max = treeRoot->getItem();
+        if ( Max < getMaxHelper(treeRoot->getRightChildPtr()) )
+            Max = getMaxHelper(treeRoot->getLeftChildPtr());
     }
     return Max;
 }
