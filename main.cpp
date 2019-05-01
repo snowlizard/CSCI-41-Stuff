@@ -10,8 +10,10 @@ int main()
     BinaryTree<int> aTree;
     aTree.createBinaryTree();
     cout<<"-----------------"<<endl;
+    aTree.addNewItem(100);
     aTree.displayPreorder();
-   /**
+   
+    /**
     cout<<"The number of node in the tree: "<<aTree.getNumberOfNodes()<<endl;
     cout<<"-----------------"<<endl;
     aTree.addNewItem(11);
@@ -25,8 +27,7 @@ int main()
         cout<<"The max items in the tree is "<<aTree.getMax()<<endl;
     }
     **/
-    //cout << "SUM: " << aTree.getSum() << endl;
-    cout << "MAX: " << aTree.getMax() << endl;
+    
     return 0;
 }
 
