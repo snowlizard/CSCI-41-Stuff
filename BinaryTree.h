@@ -199,19 +199,21 @@ int BinaryTree<ItemType>::getNumberOfNodesHelper(BinaryNode<ItemType> *treeRoot)
 }
 template<class ItemType>
 ItemType BinaryTree<ItemType>::getMaxHelper(BinaryNode<ItemType> *treeRoot)
-{   // NOT WORKING
+{   
     ItemType Max = treeRoot->getItem();
     if ( isEmpty() )
         exit(0);
     if ( treeRoot->getLeftChildPtr() != NULL )
     {
-        if ( Max < getMaxHelper(treeRoot->getLeftChildPtr()) )
-            Max = getMaxHelper(treeRoot->getLeftChildPtr());
+        int left = getMaxHelper(treeRoot->getLeftChildPtr());
+        if ( Max < left )
+            Max = left;
     }
     if ( treeRoot->getRightChildPtr() != NULL )
     {
-        if ( Max < getMaxHelper(treeRoot->getRightChildPtr()) )
-            Max = getMaxHelper(treeRoot->getLeftChildPtr());
+        int right = getMaxHelper(treeRoot->getRightChildPtr());
+        if ( Max < right )
+            Max = right;
     }
     return Max;
 }
