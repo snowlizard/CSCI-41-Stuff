@@ -2,7 +2,7 @@
 #include <iomanip>
 #include <string>
 #include "BinaryTree.h"
-
+#include "BinarySearchTree.h"
 using namespace std;
 
 int main()
@@ -25,7 +25,8 @@ int main()
         cout<<"The max items in the tree is "<<aTree.getMax()<<endl;
     }
     **/
-    cout << "SUM: " << aTree.getSum() << endl;
+    //cout << "SUM: " << aTree.getSum() << endl;
+    cout << "MAX: " << aTree.getMax() << endl;
     return 0;
 }
 

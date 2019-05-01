@@ -174,18 +174,23 @@ BinaryNode<ItemType> *BinaryTree<ItemType>::addNewItemHelper(BinaryNode<ItemType
 template<class ItemType>
 ItemType BinaryTree<ItemType>::getSumHelper(BinaryNode<ItemType> *treeRoot)
 {
+    ItemType sum = treeRoot->getItem();
     if ( isEmpty() )
     {
         exit(0);
     }
-    else {
-        return treeRoot->getItem() + getSumHelper(treeRoot->getLeftChildPtr()) + getSumHelper(treeRoot->getRightChildPtr());
-    }
+    if( treeRoot->getLeftChildPtr() != NULL )
+        sum += getSumHelper(treeRoot->getLeftChildPtr());
+    if ( treeRoot->getRightChildPtr() != NULL )
+        sum += getSumHelper(treeRoot->getRightChildPtr());
+    
+    return sum;
+    
 }
 template<class ItemType>
 int BinaryTree<ItemType>::getNumberOfNodesHelper(BinaryNode<ItemType> *treeRoot)
 {
-    if ( treeRoot == NULL )
+    if ( isEmpty() )
         return 0;
     else
     {
@@ -194,7 +199,21 @@ int BinaryTree<ItemType>::getNumberOfNodesHelper(BinaryNode<ItemType> *treeRoot)
 }
 template<class ItemType>
 ItemType BinaryTree<ItemType>::getMaxHelper(BinaryNode<ItemType> *treeRoot)
-{
+{   // NOT WORKING
+    ItemType Max = treeRoot->getItem();
+    if ( isEmpty() )
+        exit(0);
+    if ( treeRoot->getLeftChildPtr() != NULL )
+    {
+        return Max < getMaxHelper(treeRoot->getLeftChildPtr());
+    }
+    if ( treeRoot->getRightChildPtr() != NULL )
+    {
+        getMaxHelper(treeRoot->getRightChildPtr());
+        if ( Max < treeRoot->getItem() )
+            Max = treeRoot->getItem();
+    }
+    return Max;
 }
 
 template<class ItemType>
