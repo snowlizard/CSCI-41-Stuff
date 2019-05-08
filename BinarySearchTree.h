@@ -164,6 +164,7 @@ BinaryNode<ItemType>
     
     if (nodeToBeRemoved->isLeaf())
     {
+        cout << "leafin\n";
         nodeToBeRemoved = NULL;
         delete (nodeToBeRemoved);
         return NULL;
@@ -186,7 +187,11 @@ BinaryNode<ItemType>
             return node;
         }
         else{
-            return NULL;
+            ItemType nodeItem = nodeToBeRemoved->getRightChildPtr()->getItem();
+            nodeToBeRemoved->setRightChildPtr(removeLeftMost(nodeToBeRemoved->getRightChildPtr(), nodeItem));
+            nodeToBeRemoved->setItem(nodeItem);
+            return nodeToBeRemoved;
+           
         }
     }
 }
@@ -197,7 +202,7 @@ BinaryNode<ItemType>
                                             ItemType &nodeItem)
 {
     if ( treeRoot->getLeftChildPtr() != NULL )
-        treeRoot->setLeftChildPtr(removeLeftMost(treeRoot->getLeftChildPtr(), nodeItem));
+        return treeRoot->setLeftChildPtr(removeLeftMost(treeRoot->getLeftChildPtr(), nodeItem));
     else{
         nodeItem = treeRoot->getItem();
         removeNode(treeRoot);
