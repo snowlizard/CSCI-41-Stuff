@@ -170,10 +170,34 @@ template<class ItemType>
 BinaryNode<ItemType> *BinaryTree<ItemType>::addNewItemHelper(BinaryNode<ItemType>
                                         *treeRoot,ItemType anItem)
 {
-    BinaryNode<ItemType> *curNode = new BinaryNode<ItemType>(anItem);
-    if ( treeRoot == NULL )
-        rootPtr->setItem(anItem);
-    
+   if ( treeRoot == NULL )
+   {
+       rootPtr = new BinaryNode<ItemType>(anItem);
+   }
+    else
+    {
+        char ans;
+        cout << "current parent " << treeRoot->getItem() << endl;
+        cout << "Add Item to left? [Y/N]\n";
+        cin >> ans;
+        if ( ans == 'y' )
+        {
+            if (treeRoot->getLeftChildPtr() == NULL)
+            {
+                treeRoot->setLeftChildPtr(new BinaryNode<ItemType>(anItem));
+            }
+            else
+                treeRoot->setLeftChildPtr(addNewItemHelper(treeRoot->getLeftChildPtr(), anItem));
+        }
+        else
+        {
+            if (treeRoot->getRightChildPtr() == NULL )
+                treeRoot->setRightChildPtr(new BinaryNode<ItemType>(anItem));
+            else
+                treeRoot->setRightChildPtr(addNewItemHelper(treeRoot->getRightChildPtr(), anItem));
+        }
+    }
+    return treeRoot;
 }
 template<class ItemType>
 ItemType BinaryTree<ItemType>::getSumHelper(BinaryNode<ItemType> *treeRoot)
@@ -194,12 +218,13 @@ ItemType BinaryTree<ItemType>::getSumHelper(BinaryNode<ItemType> *treeRoot)
 template<class ItemType>
 int BinaryTree<ItemType>::getNumberOfNodesHelper(BinaryNode<ItemType> *treeRoot)
 {
-    if ( isEmpty() )
-        return 0;
-    else
-    {
-        return 1 + getNumberOfNodesHelper(treeRoot->getLeftChildPtr()) + getNumberOfNodesHelper(treeRoot->getRightChildPtr());
+    int numberOfNodes = 0;
+    if (treeRoot != NULL) {
+        numberOfNodes = 1 +
+        getNumberOfNodesHelper(treeRoot->getLeftChildPtr()) +
+        getNumberOfNodesHelper(treeRoot->getRightChildPtr());
     }
+    return numberOfNodes;
 }
 template<class ItemType>
 ItemType BinaryTree<ItemType>::getMaxHelper(BinaryNode<ItemType> *treeRoot)
@@ -225,7 +250,7 @@ ItemType BinaryTree<ItemType>::getMaxHelper(BinaryNode<ItemType> *treeRoot)
 template<class ItemType>
 void BinaryTree<ItemType>::addNewItem(ItemType anItem)
 {
-    addNewItemHelper(rootPtr, anItem);
+   addNewItemHelper(rootPtr, anItem);
 }
 
 template<class ItemType>

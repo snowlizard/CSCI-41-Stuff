@@ -7,27 +7,18 @@ using namespace std;
 
 int main()
 {
-    BinaryTree<int> aTree;
-    aTree.createBinaryTree();
-    cout<<"-----------------"<<endl;
-    aTree.addNewItem(100);
-    aTree.displayPreorder();
-   
-    /**
-    cout<<"The number of node in the tree: "<<aTree.getNumberOfNodes()<<endl;
-    cout<<"-----------------"<<endl;
-    aTree.addNewItem(11);
-    aTree.displayPreorder();
-    cout<<"The number of node in the tree: "<<aTree.getNumberOfNodes()<<endl;
-    cout<<"-----------------"<<endl;
-    if( !aTree.isEmpty() ){
-        cout<<"The sume of the items in the tree is "<<aTree.getSum()<<endl;
-    }
-    if( !aTree.isEmpty() ){
-        cout<<"The max items in the tree is "<<aTree.getMax()<<endl;
-    }
-    **/
+    BinarySearchTree<int> tree;
     
+    int a = 4;
+    
+    tree.binarySearchAdd(a);
+    tree.binarySearchAdd(3);
+    tree.binarySearchAdd(1);
+    tree.binarySearchAdd(2);
+    
+    tree.binarySearchRemove(4);
+    
+    tree.displayInorder();
     return 0;
 }
 
