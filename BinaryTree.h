@@ -15,9 +15,12 @@ private:
 protected:
     void binaryTreeBuilder(BinaryNode<ItemType> *aParent);
     void preOrderVisit(BinaryNode<ItemType> *treeRoot);
-    void inOrderVisit(BinaryNode<ItemType> *treeRoot);
-    void postOrderVisit(BinaryNode<ItemType> *treeRoot);
-    // Assignment 16
+    
+    int getHeightHelper(BinaryNode<ItemType> *treeRoot);
+    bool containsHelper(BinaryNode<ItemType> *treeRoot, ItemType anItem);
+    bool isFullTreeHelper(BinaryNode<ItemType> *treeRoot);
+    BinaryNode<ItemType> *removeLeavesHelper(BinaryNode<ItemType> *treeRoot);
+
     BinaryNode<ItemType> *addNewItemHelper(BinaryNode<ItemType> *treeRoot,ItemType anItem);
     ItemType getSumHelper(BinaryNode<ItemType> *treeRoot);
     int getNumberOfNodesHelper(BinaryNode<ItemType> *treeRoot);
@@ -33,8 +36,12 @@ public:
     bool isEmpty() const;
     void createBinaryTree();
     void displayPreorder();
-    void displayInorder();
-    void displayPostorder();
+    
+    bool contains(ItemType anItem);
+    int getHeight();
+    bool isFullTree();
+    void removeLeaves();
+    
     // Assignment 16
     void addNewItem(ItemType anItem);
     ItemType getSum();
@@ -81,40 +88,34 @@ template<class ItemType>
 void BinaryTree<ItemType>::binaryTreeBuilder(BinaryNode<ItemType>
                                              *aParent)
 {
-    char usrInput;
-    ItemType userItem;
-    BinaryNode<ItemType> *curNode;
-    
-    if ( aParent == NULL )
-    {
-        cout << "Enter data Item you wish to add to tree\n";
-        cin >> userItem;
-        aParent = new BinaryNode<ItemType>(userItem);
-        rootPtr = aParent;
+    BinaryNode<ItemType> *curPtr;
+    char option;
+    cout << "Continue to the left?(y/n)\n";
+    cin >> option;
+    if (option == 'y') {
+        ItemType anItem;
+        cout << "Enter the information for the data item:\n";
+        cin >> anItem;
+        curPtr = new BinaryNode<ItemType>(anItem);
+        aParent->setLeftChildPtr(curPtr);
+        binaryTreeBuilder(curPtr);
     }
-    cout << "Go Left?[Y/N]\n";
-    cin >> usrInput;
-    cout << "Current Parent " << aParent->getItem() << endl;
-    if ( usrInput == 'y' || usrInput == 'Y' )
-    {
-        cout << "Enter data item you wish to add to left tree.\n";
-        cin >> userItem;
-        curNode = new BinaryNode<ItemType>(userItem);
-        aParent->setLeftChildPtr(curNode);
-        binaryTreeBuilder(curNode);
+    else
+        aParent->setLeftChildPtr(NULL);
+    cout << "Continue to the right?(y/n)\n";
+    cin >> option;
+    if (option == 'y') {
+        ItemType anItem;
+        cout << "Enter the information for the data item:\n";
+        cin >> anItem;
+        curPtr = new BinaryNode<ItemType>(anItem);
+        aParent->setRightChildPtr(curPtr);
+        binaryTreeBuilder(curPtr);
     }
-    cout << "Go Right?[Y/N]\n";
-    cout << "current parent " << aParent->getItem() << endl;
-    cin >> usrInput;
-    if ( usrInput == 'y' || usrInput == 'Y' )
-    {
-        cout << "Enter data item you wish to add to right tree.\n";
-        cin >> userItem;
-        curNode = new BinaryNode<ItemType>(userItem);
-        aParent->setRightChildPtr(curNode);
-        binaryTreeBuilder(curNode);
-    }
+    else
+        aParent->setRightChildPtr(NULL);
 }
+
 template<class ItemType>
 void BinaryTree<ItemType>::preOrderVisit(BinaryNode<ItemType> *treeRoot)
 {
@@ -125,46 +126,23 @@ void BinaryTree<ItemType>::preOrderVisit(BinaryNode<ItemType> *treeRoot)
         preOrderVisit(treeRoot->getRightChildPtr());
     }
 }
-template<class ItemType>
-void BinaryTree<ItemType>::inOrderVisit(BinaryNode<ItemType> *treeRoot)
-{
-  if ( treeRoot != NULL )
-  {
-      inOrderVisit(treeRoot->getLeftChildPtr());
-      cout << treeRoot->getItem() << "\t";
-      inOrderVisit(treeRoot->getRightChildPtr());
-  }
-}
-template<class ItemType>
-void BinaryTree<ItemType>::postOrderVisit(BinaryNode<ItemType> *treeRoot)
-{
-    if ( treeRoot != NULL )
-    {
-        postOrderVisit(treeRoot->getLeftChildPtr());
-        postOrderVisit(treeRoot->getRightChildPtr());
-        cout << treeRoot->getItem() << "\t";
-    }
-}
+
 template<class ItemType>
 void BinaryTree<ItemType>::createBinaryTree()
 {
+    ItemType anItem;
+    cout << "Enter the data item for the root:\n";
+    cin >> anItem;
+    rootPtr = new BinaryNode<ItemType>(anItem);
     binaryTreeBuilder(rootPtr);
 }
+
 template<class ItemType>
 void BinaryTree<ItemType>::displayPreorder()
 {
     preOrderVisit(rootPtr);
 }
-template<class ItemType>
-void BinaryTree<ItemType>::displayInorder()
-{
-    inOrderVisit(rootPtr);
-}
-template<class ItemType>
-void BinaryTree<ItemType>::displayPostorder()
-{
-    postOrderVisit(rootPtr);
-}
+
 // Assignment 16 =================================
 template<class ItemType>
 BinaryNode<ItemType> *BinaryTree<ItemType>::addNewItemHelper(BinaryNode<ItemType>
@@ -268,6 +246,45 @@ ItemType BinaryTree<ItemType>::getMax()
 {
     return getMaxHelper(rootPtr);
 }
-
+//Assignment 18 -> Complete following functions:
+template<class ItemType>
+bool BinaryTree<ItemType>::containsHelper(BinaryNode<ItemType> *treeRoot,
+                                          ItemType anItem)
+{
+}
+template<class ItemType>
+bool BinaryTree<ItemType>::contains(ItemType anItem)
+{
+    return(containsHelper(rootPtr, anItem));
+}
+template<class ItemType>
+int BinaryTree<ItemType>::getHeightHelper(BinaryNode<ItemType> *treeRoot)
+{
+}
+template<class ItemType>
+int BinaryTree<ItemType>::getHeight()
+{
+    return getHeightHelper(rootPtr);
+}
+template<class ItemType>
+bool BinaryTree<ItemType>::isFullTreeHelper(BinaryNode<ItemType>
+                                            *treeRoot)
+{
+    
+}
+template<class ItemType>
+bool BinaryTree<ItemType>::isFullTree()
+{
+    return isFullTreeHelper(rootPtr);
+}
+template<class ItemType>
+BinaryTree<ItemType> *BinaryTree<ItemType>::removeLeavesHelper(BinaryNode<ItemType> *treeRoot)
+{
+}
+template<class ItemType>
+void BinaryTree<ItemType>::removeLeaves()
+{
+    rootPtr=removeLeavesHelpter(rootPtr);
+}
 #endif
 

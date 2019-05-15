@@ -124,6 +124,17 @@ BinaryNode<ItemType>
 *BinarySearchTree<ItemType>::getNode(BinaryNode<ItemType> *treeRoot,
                                      const ItemType &target) const
 {
+    if( treeRoot == NULL )
+        return NULL;
+    else
+    {
+        if (treeRoot->getItem() == target)
+            return treeRoot;
+        else{
+            getNode(treeRoot->getLeftChildPtr(), target);
+            getNode(treeRoot->getRightChildPtr(), target);
+        }
+    }
 }
 template<class ItemType>
 void BinarySearchTree<ItemType>::binarySearchAdd(ItemType newItem)
@@ -144,6 +155,7 @@ BinaryNode<ItemType>
     }
     else if ( treeRoot->getItem() == target )
     {
+        success = true;
         return removeNode(treeRoot);
     }
     if ( target < treeRoot->getItem() && treeRoot->getLeftChildPtr() != NULL)
@@ -164,15 +176,12 @@ BinaryNode<ItemType>
     
     if (nodeToBeRemoved->isLeaf())
     {
-        cout << "leafin\n";
-        nodeToBeRemoved = NULL;
         delete (nodeToBeRemoved);
         return NULL;
     }
     else{
         if (nodeToBeRemoved->getLeftChildPtr() != NULL && nodeToBeRemoved->getRightChildPtr() == NULL)
         {
-            cout << "wowo\n";
             node = nodeToBeRemoved->getLeftChildPtr();
             nodeToBeRemoved->setLeftChildPtr(NULL);
             delete (nodeToBeRemoved);
@@ -180,7 +189,6 @@ BinaryNode<ItemType>
         }
         else if (nodeToBeRemoved->getRightChildPtr() != NULL && nodeToBeRemoved->getLeftChildPtr() == NULL)
         {
-            cout << "fuuck\n";
             node = nodeToBeRemoved->getRightChildPtr();
             nodeToBeRemoved->setRightChildPtr(NULL);
             delete (nodeToBeRemoved);
@@ -202,18 +210,24 @@ BinaryNode<ItemType>
                                             ItemType &nodeItem)
 {
     if ( treeRoot->getLeftChildPtr() != NULL )
-        return treeRoot->setLeftChildPtr(removeLeftMost(treeRoot->getLeftChildPtr(), nodeItem));
+    {
+        treeRoot->setLeftChildPtr(removeLeftMost(treeRoot->getLeftChildPtr(), nodeItem));
+    }
     else{
         nodeItem = treeRoot->getItem();
-        removeNode(treeRoot);
-        return treeRoot;
+        return removeNode(treeRoot);
     }
+    return treeRoot;
 }
 template<class ItemType>
 bool BinarySearchTree<ItemType>::binarySearchRemove(ItemType anItem)
 {
     bool success;
     rootPtr = removeEntry(rootPtr, anItem, success);
+    if ( success == false )
+    {
+        cout << "Removal failed.\n";
+    }
     return success;
 }
 #endif
